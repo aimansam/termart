@@ -1,0 +1,16 @@
+microjq ".users[].name"
+Input:  {'users': [{'name': 'Alice', 'age': 30}, {'name': 'Bob', 'age': 25}]}
+Output: ['Alice', 'Bob']
+
+microjq ".users[0].name"
+Input:  {'users': [{'name': 'Alice', 'age': 30}]}
+Output: ['Alice']
+
+microjq ".store.book[].price"
+Input:  {'store': {'book': [{'price': 10}, {'price': 20}, {'price': 15}]}}
+Output: [10, 20, 15]
+
+microjq ". | sort"
+Input:  [5, 2, 8, 1, 9]
+Output: [1, 2, 5, 8, 9]
+
