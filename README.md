@@ -11,7 +11,7 @@ Render images in your terminal using half-block characters (▄▀) for double t
 ![termart sample image](assets/termart_sample.png)
 ![termart half-block output](assets/termart_output.png)
 
-*Left: Source image (200×150). Right: Half-block terminal output at 80 columns — two rows of pixels per character line using ▄▀.*
+*Left: Source image (300×200). Right: Half-block terminal output at 80 columns — two rows of pixels per character line using ▄▀.*
 
 ## Quickstart
 
