@@ -1,5 +1,12 @@
 # termart
 
+```text
+╔══════════════════════════════╗
+║          TERMART             ║
+║  pixels in · ANSI art out    ║
+╚══════════════════════════════╝
+```
+
 **Turn any image into beautiful terminal art — half-block characters, color, and multiple charsets.**
 
 Render images in your terminal using half-block characters (▄▀) for double the vertical resolution, with color support where possible, multiple output modes, and a built-in demo.
