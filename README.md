@@ -1,10 +1,12 @@
 # termart
 
 ```text
-╔══════════════════════════════╗
-║          TERMART             ║
-║  pixels in · ANSI art out    ║
-╚══════════════════════════════╝
+  .------------.
+ /  .----------. \\
+|  /  ▄▀▄▀▄▀▄▀  \\ |   TERMART
+|  \\  ▀▄▀▄▀▄▀  /  |   pixels in · ANSI art out
+ \\  '--------'  /
+  '------------'
 ```
 
 **Turn any image into beautiful terminal art — half-block characters, color, and multiple charsets.**
