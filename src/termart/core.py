@@ -152,9 +152,9 @@ def render_halfblock(
 
     for y in range(0, h, 2):
         for x in range(w):
-            top_pixel = img.getpixel((x, y))
+            top_pixel = resized.getpixel((x, y))
             if y + 1 < h:
-                bottom_pixel = img.getpixel((x, y + 1))
+                bottom_pixel = resized.getpixel((x, y + 1))
             else:
                 # Last row if height is odd: pair with black.
                 bottom_pixel = (0, 0, 0)
