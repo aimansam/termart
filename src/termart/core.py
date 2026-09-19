@@ -30,7 +30,7 @@ def _emit_char(c: str, fg_ansi: str = "", bg_ansi: str = "", reset_after: bool =
     if bg_ansi:
         parts.append(bg_ansi)
     parts.append(c)
-    if reset_after:
+    if reset_after and (fg_ansi or bg_ansi):
         parts.append(color.RESET)
     return "".join(parts)
 
@@ -148,7 +148,7 @@ def render_halfblock(
     from .image import resize_image
     resized = resize_image(img, width, font_ratio=font_ratio)
     w, h = resized.size
-    out_lines: list[list[str]] = [[] for _ in range(h)]
+    out_lines: list[list[str]] = [[] for _ in range((h + 1) // 2)]
 
     for y in range(0, h, 2):
         for x in range(w):
@@ -163,19 +163,7 @@ def render_halfblock(
             fg_ansi, bg_ansi = _cell_color(fg, bg, color_enabled, invert)
             out_lines[y // 2].append(_emit_char("▄" if not invert else "▀",
                                                   fg_ansi=fg_ansi, bg_ansi=bg_ansi))
-        # Build newline for the finished row.
-        # Note: we're appending to out_lines[y//2] inside the x-loop, which
-        # means each row list accumulates one string per column.  We join below.
-        pass
-
-    # Rebuild: out_lines[y//2] already holds per-column strings.  Join.
-    result_lines = []
-    for row in out_lines:
-        if row:
-            result_lines.append("".join(row))
-        else:
-            result_lines.append("")
-    return "\n".join(result_lines)
+    return "\n".join("".join(row) for row in out_lines)
 
 
 def render_ascii(
@@ -213,7 +201,7 @@ def render_ascii(
     for y in range(h):
         row_chars: list[str] = []
         for x in range(w):
-            pixel = img.getpixel((x, y))
+            pixel = resized.getpixel((x, y))
             r, g, b = _pixel_to_rgb(pixel)
             bright = _rgb_brightness(r, g, b)
             ch = charset.brightness_to_char(bright, ramp)
@@ -253,7 +241,7 @@ def render_shade(
     for y in range(h):
         row_chars: list[str] = []
         for x in range(w):
-            pixel = img.getpixel((x, y))
+            pixel = resized.getpixel((x, y))
             r, g, b = _pixel_to_rgb(pixel)
             bright = _rgb_brightness(r, g, b)
             ch = charset.brightness_to_char(bright, ramp)

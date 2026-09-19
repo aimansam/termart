@@ -26,14 +26,14 @@ termart image.jpg
 # Half-block mode (higher resolution)
 termart image.jpg --mode halfblock
 
-# With color
+# With color (enabled by default)
 termart image.jpg --color
 
 # Resize to fit terminal
 termart image.jpg --width 120
 
 # Run the built-in demo
-termart demo
+termart --demo
 ```
 
 ## What it does
@@ -42,7 +42,7 @@ termart renders images directly in your terminal using Unicode block characters.
 
 ### Output modes
 
-- **ASCII** — classic `./-Oo`로 #-+=~ characters, good for quick previews
+- **ASCII** — classic ranked characters, good for quick previews
 - **Half-block** — ▄▀ characters, 2x vertical resolution, the default and recommended mode
 - **Shade** — uses `░▒▓█` gradient characters for smooth grayscale
 - **Color** — ANSI color codes when supported, per-character or per-block coloring
@@ -55,7 +55,7 @@ termart renders images directly in your terminal using Unicode block characters.
 - **Resize and scale** — width/height controls, fit-to-terminal, scale methods (nearest, bilinear)
 - **Demo mode** — built-in sample image, try `termart demo` without any image file
 - **Output to file** — save rendered art to a text file with `--output`
-- ** inverts** — `--invert` for dark-on-light terminals
+- **Invert** — `--invert` for dark-on-light terminals
 - **Font ratio adjustment** — compensate for non-square terminal fonts
 
 ## Installation
@@ -110,9 +110,9 @@ termart photo.jpg --output art.txt
 ### Run demo
 
 ```bash
-termart demo
+termart --demo
 # Renders the built-in sample image with current settings
-termart demo --mode ascii --color
+termart --demo --mode ascii --color
 # Try different modes with the demo
 ```
 

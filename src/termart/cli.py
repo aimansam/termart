@@ -11,7 +11,7 @@ from typing import Optional
 
 import click
 
-from . import __version__, core, demo, image, _env
+from . import __version__, core, demo, image as image_module, _env
 
 
 # ---------------------------------------------------------------------------
@@ -120,7 +120,7 @@ def _emit_output(ansi: str, output_path: Optional[str], stdout: bool = True) -> 
 )
 @click.version_option(version=__version__, prog_name="termart")
 @click.option(
-    "--demo", "-d",
+    "--demo", "-d", "demo_flag",
     is_flag=True,
     help="Render the built-in demo image (zero setup, zero external files).",
 )
@@ -160,7 +160,7 @@ def _emit_output(ansi: str, output_path: Optional[str], stdout: bool = True) -> 
     help="Aspect correction factor. Terminal chars are typically ~2x taller than wide; raise this for thinner output, lower for taller.",
 )
 @click.option(
-    "--scale",
+    "--scale", "scale_method",
     type=click.Choice(["nearest", "bicubic", "lanczos"], case_sensitive=False),
     default="lanczos",
     show_default=True,
@@ -181,9 +181,9 @@ def _emit_output(ansi: str, output_path: Optional[str], stdout: bool = True) -> 
     help="Character ramp for ASCII mode. Either a built-in name (classic, detailed, shade, classic-spaced, dark-only) or a custom string (e.g. '@%#*+=-:. ').",
 )
 @click.option(
-    "--no-color",
-    is_flag=True,
-    help="Monochrome output. No ANSI colour codes in any mode.",
+    "--color/--no-color", "color_enabled",
+    default=True,
+    help="Enable or disable ANSI colour output.",
 )
 @click.option(
     "--invert",
@@ -191,14 +191,14 @@ def _emit_output(ansi: str, output_path: Optional[str], stdout: bool = True) -> 
     help="Swap foreground/background colours. Useful on light-background terminals; primarily affects half-block mode (top/bottom pixel assignment).",
 )
 @click.option(
-    "--output",
+    "--output", "output_path",
     "-o",
     type=click.Path(dir_okay=False),
     default=None,
     help="Write ANSI output to this file instead of (or in addition to) stdout.",
 )
 @click.option(
-    "--stdout",
+    "--stdout", "stdout_flag",
     is_flag=True,
     help="Explicitly write to stdout (useful for scripts that need to ensure stdout output).",
 )
@@ -212,7 +212,7 @@ def main(
     scale_method: str,
     fit: str,
     chars: Optional[str],
-    no_color: bool,
+    color_enabled: bool,
     invert: bool,
     output_path: Optional[str],
     stdout_flag: bool,
@@ -232,8 +232,6 @@ def main(
     For more, see the README or `termart --help`.
     """
     # --version and --help are handled by Click automatically.
-    color_enabled = not no_color
-
     # --demo takes precedence over a positional image.
     if demo_flag:
         _render_demo(
@@ -262,7 +260,7 @@ def main(
         width = _default_width() if _is_tty() else 100
 
     try:
-        img = image.load_image(image)
+        img = image_module.load_image(image)
     except FileNotFoundError:
         click.secho(f"termart: image not found: {image}", fg="red")
         sys.exit(1)
